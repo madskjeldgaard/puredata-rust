@@ -72,7 +72,7 @@ impl<'a, T> Builder<'a, T> {
 
 impl<'a, T> Into<IntoBuiltControl<T>> for Builder<'a, T> {
     fn into(self) -> IntoBuiltControl<T> {
-        (self.float_inlets)
+        self.float_inlets
     }
 }
 

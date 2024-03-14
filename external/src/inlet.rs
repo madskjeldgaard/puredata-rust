@@ -8,7 +8,6 @@ pub struct SignalInlet {
 
 pub mod passive {
     use crate::obj::AsObject;
-    use std::boxed::Box;
     use std::ops::Deref;
 
     pub struct FloatInlet {
@@ -58,8 +57,8 @@ impl SignalInlet {
                 ptr: pd_sys::inlet_new(
                     obj,
                     &mut (*obj).te_g.g_pd,
-                    &mut pd_sys::s_signal,
-                    &mut pd_sys::s_signal,
+                    std::ptr::addr_of_mut!(pd_sys::s_signal),
+                    std::ptr::addr_of_mut!(pd_sys::s_signal),
                 ),
             }
         }

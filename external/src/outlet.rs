@@ -35,17 +35,16 @@ impl Outlet {
     pub fn new(outlet_type: OutletType, owner: &mut dyn AsObject) -> Self {
         unsafe {
             let ptr = match outlet_type {
-                OutletType::Bang => pd_sys::outlet_new(owner.as_obj(), &mut pd_sys::s_bang),
-                OutletType::Float => pd_sys::outlet_new(owner.as_obj(), &mut pd_sys::s_float),
-                OutletType::Symbol => pd_sys::outlet_new(owner.as_obj(), &mut pd_sys::s_symbol),
-                OutletType::Pointer => pd_sys::outlet_new(owner.as_obj(), &mut pd_sys::s_pointer),
-                OutletType::List => pd_sys::outlet_new(owner.as_obj(), &mut pd_sys::s_list),
+                OutletType::Bang => pd_sys::outlet_new(owner.as_obj(), std::ptr::addr_of_mut!(pd_sys::s_bang)),
+                OutletType::Float => pd_sys::outlet_new(owner.as_obj(), std::ptr::addr_of_mut!(pd_sys::s_float)),
+                OutletType::Symbol => pd_sys::outlet_new(owner.as_obj(), std::ptr::addr_of_mut!(pd_sys::s_symbol)),
+                OutletType::Pointer => pd_sys::outlet_new(owner.as_obj(), std::ptr::addr_of_mut!(pd_sys::s_pointer)),
+                OutletType::List => pd_sys::outlet_new(owner.as_obj(), std::ptr::addr_of_mut!(pd_sys::s_list)),
                 OutletType::AnyThing => pd_sys::outlet_new(
                     owner.as_obj(),
                     std::ptr::null_mut() as *mut pd_sys::t_symbol,
                 ),
-            };
-            Self {
+            };            Self {
                 /*outlet_type,*/ ptr,
             }
         }
@@ -77,7 +76,7 @@ impl OutletSend for Outlet {
             let argv = v.as_ptr() as *const pd_sys::t_atom;
             //XXX pd doesn't indicate const or mut but shouldn't be modifying
             let argv = std::mem::transmute::<_, *mut pd_sys::t_atom>(argv);
-            pd_sys::outlet_list(self.ptr, &mut pd_sys::s_list, argc, argv);
+            pd_sys::outlet_list(self.ptr, std::ptr::addr_of_mut!(pd_sys::s_list), argc, argv);
         }
     }
 
@@ -105,7 +104,7 @@ impl SignalOutlet {
         let obj = owner.as_obj();
         unsafe {
             Self {
-                ptr: pd_sys::outlet_new(obj, &mut pd_sys::s_signal),
+                ptr: pd_sys::outlet_new(obj, std::ptr::addr_of_mut!(pd_sys::s_signal)),
             }
         }
     }

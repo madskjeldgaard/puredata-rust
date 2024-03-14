@@ -296,11 +296,11 @@ where
     }
 
     fn inner(&self) -> &SignalGeneratorExternalWrapperInternal<T> {
-        unsafe { (&(*self.wrapped.as_ptr())) }
+        unsafe { &(*self.wrapped.as_ptr()) }
     }
 
     fn inner_mut(&mut self) -> &mut SignalGeneratorExternalWrapperInternal<T> {
-        unsafe { (&mut (*self.wrapped.as_mut_ptr())) }
+        unsafe { &mut (*self.wrapped.as_mut_ptr()) }
     }
 
     pub fn wrapped(&mut self) -> &mut T {
@@ -366,11 +366,11 @@ where
     }
 
     fn inner(&self) -> &SignalProcessorExternalWrapperInternal<T> {
-        unsafe { (&(*self.wrapped.as_ptr())) }
+        unsafe { &(*self.wrapped.as_ptr()) }
     }
 
     fn inner_mut(&mut self) -> &mut SignalProcessorExternalWrapperInternal<T> {
-        unsafe { (&mut (*self.wrapped.as_mut_ptr())) }
+        unsafe { &mut (*self.wrapped.as_mut_ptr()) }
     }
 
     pub fn wrapped(&mut self) -> &mut T {
